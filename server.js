@@ -17,4 +17,6 @@ app.get('/home', (req, res) => {
 }); 
 
 //start the server as such 
-
+app.listen(PORT, (req, res) => { 
+    console.log(`Backend Successfully running at Port http://localhost:${PORT}`); 
+}); 
