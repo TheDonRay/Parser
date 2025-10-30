@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('Welcome To Parser -> a basic backend API used to parse a file for a specific Key word youre searching for !'); 
 });  
 
-// mounting the router which has final url client can visit to see data
+// mounting the router which has final url that client can visit to see data on that base url + the endpoint for that route
 app.use('/api/v1/', routeForParsing); 
 
 //start the server as such 
