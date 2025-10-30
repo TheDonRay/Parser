@@ -8,3 +8,13 @@ require('dotenv').config();
 //set up basic middleware for incoming data 
 app.use(express.json());  
 
+//initialize PORT imported from env already since its in the same server module 
+const PORT = process.env.PORT;  
+
+//basic route to make sure server  
+app.get('/home', (req, res) => {
+    res.send('Welcome To Parser -> a basic backend API used to parse a file for a specific Key word youre searching for!'); 
+}); 
+
+//start the server as such 
+
