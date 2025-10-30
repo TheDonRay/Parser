@@ -2,6 +2,9 @@
 const express = require('express'); 
 const app = express(); 
 
+// Call routes below 
+const routeForParsing = require('./routes/parseroute.js'); 
+
 //initialize the env stuff here as such 
 require('dotenv').config(); 
 
@@ -12,9 +15,12 @@ app.use(express.json());
 const PORT = process.env.PORT;  
 
 //basic route to make sure server  
-app.get('/home', (req, res) => {
-    res.send('Welcome To Parser -> a basic backend API used to parse a file for a specific Key word youre searching for!'); 
-}); 
+app.get('/', (req, res) => {
+    res.send('Welcome To Parser -> a basic backend API used to parse a file for a specific Key word youre searching for !'); 
+});  
+
+// mounting the router which has final url client can visit to see data
+app.use('/api/v1/', routeForParsing); 
 
 //start the server as such 
 app.listen(PORT, (req, res) => { 
