@@ -3,7 +3,7 @@ const express = require('express');
 const parserRoute = express.Router(); 
 
 // set up the route as such for parsing. 
-parserRoute.get('/parsefile', (req, res) => { 
+parserRoute.post('/parsefile', (req, res) => { 
     res.send({ 
         RouteForParsing: true
     }); 
