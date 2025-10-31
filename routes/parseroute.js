@@ -2,9 +2,9 @@
 const express = require('express'); 
 const parserRoute = express.Router();  
 // in this route need to set up multer   
-const multer = require('multer');  
-const path = require('path');  
-const fs = require('fs');  
+const multer = require('multer'); // multer used for handling file upload from user 
+const path = require('path');  // path to get the path at which those files are uploaded
+const fs = require('fs'); // file  system module lets us read write and delete and manipulate files
 
 // set destination of where files will be uploaded to. 
 const upload = multer({ 
@@ -12,7 +12,7 @@ const upload = multer({
 }); 
 
 // set up the route as such for parsing. 
-parserRoute.post('/parsefile', upload.single('UserFile'), (req, res) => { 
+parserRoute.post('/parsefile', upload.single('UserFile'), async (req, res) => { 
     // set up the file object as such where in this case it will be userResume 
     const UserFile = req.UserFile;  
 
@@ -26,10 +26,24 @@ parserRoute.post('/parsefile', upload.single('UserFile'), (req, res) => {
         
         const filePath = path.join(__dirname, req.UserFile.path); //.this line basically make sure the backend knows the correct local location of the uploaded file — no matter where the app runs from
 
-    } catch (error) { 
-        
-    }
+        // create a async response as such here for the data 
+        const data = await fs.promises.readFile(filePath, 'utf-8');  
 
+        // finally handle the response as such 
+        res.json({ 
+            message: 'File uploaded and was read successfully', 
+            filename: req.UserFile.originalname, 
+            localPath: req.UserFile.path, 
+            content: data
+        }); 
+    } catch (error) { 
+        console.error('Error handling the file upload', error); 
+
+        res.status(500).json({ 
+            error: 'Error handling upload or reading file', 
+            details: error.message
+        }); 
+    }
 }); 
 
 module.exports = parserRoute; 
