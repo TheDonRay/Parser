@@ -14,7 +14,7 @@ const upload = multer({
 // set up the route as such for parsing. 
 parserRoute.post('/parsefile', upload.single('UserFile'), async (req, res) => { 
     // set up the file object as such where in this case it will be userResume 
-    const UserFile = req.UserFile;  
+    const UserFile = req.file;  // create it as a req object here for data to be read.
 
     // handle error where if there is no file return a json error as such 
     try { 
@@ -24,16 +24,16 @@ parserRoute.post('/parsefile', upload.single('UserFile'), async (req, res) => {
             }); 
         }   
         
-        const filePath = path.join(__dirname, req.UserFile.path); //.this line basically make sure the backend knows the correct local location of the uploaded file — no matter where the app runs from
+        const filePath = path.resolve(UserFile.path); //.this line basically make sure the backend knows the correct local location of the uploaded file — no matter where the app runs from
 
         // create a async response as such here for the data 
         const data = await fs.promises.readFile(filePath, 'utf-8');  
 
-        // finally handle the response as such 
+        // finally handle the response as such for the data to be sent. 
         res.json({ 
             message: 'File uploaded and was read successfully', 
-            filename: req.UserFile.originalname, 
-            localPath: req.UserFile.path, 
+            filename: UserFile.originalname, 
+            localPath: UserFile.path, 
             content: data
         }); 
     } catch (error) { 
